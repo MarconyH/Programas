@@ -1,0 +1,81 @@
+'''
+[nome, matricula, telefone, email, senha] #USUARIO
+[nome, matricula, telefone, email, senha] #BIBLIOTECARIO
+[titulo, autor, editora, ano_publicao, isbn] #LIVRO
+[isbn, cod, status] #EXEMPLARES
+[cod, isbn, matricula, data_de_emprestimo, data_de_devolucao] #EMPRESTIMOS
+[isbn, matricula, data] #RESERVA
+[isbn, data_da_multa, nome_livro] #MULTAS
+
+
+-> status -> True - livre para uso
+
+tables in data base
+usuario (nome, matricula, telefone, email, senha)
+bibliotecario (nome, matricula, telefone, email, senha)
+livros (titulo, autor, editora, ano de publicacao, isbn, localizacao)
+exemplares (nome_do_livro, status)
+emprestimo (nome_do_livro, data_de_emprestimo, data_de_devolucao)
+reserva (nome_do_livro, matricula, data)
+multas (usuario, valor_multa, nome_livro)
+
+duvidas 
+atualizar as multas de acordo com o dia, para não existir emprestimo com multa
+atualizar a lista de reserva pra quando o individuo não pegar 
+'''
+
+create database Biblioteca;
+
+use Biblioteca; 
+
+create table usuarios(
+    nome varchar(30), 
+    matricula varchar(30), 
+    telefone varchar(30), 
+    email varchar(30), 
+    senha varchar(30)
+)
+
+create table bibliotecarios(
+    nome varchar(30), 
+    matricula varchar(30), 
+    telefone varchar(30), 
+    email varchar(30), 
+    senha varchar(30),
+    chave varchar(30) = "root"
+)
+
+create table livros(
+    titulo varchar(50), 
+    autor varchar(30), 
+    editora varchar(30), 
+    edicao varchar(30),
+    ano_publicao varchar(30), 
+    isbn varchar(30),
+    localizacao varchar(30)
+)
+
+create table exemplares(
+    isbn varchar(30), 
+    cod varchar(30), 
+    disponivel bool
+)
+
+create table emprestimos(
+    cod varchar(30), 
+    matricula varchar(30),
+    data_emprestimo varchar(30),
+    data_devolucao varchar(30)
+)
+
+create table reservas(
+    isbn varchar(30), 
+    matricula varchar(30),
+    data varchar(30)
+)
+
+create table multas(
+    isbn varchar(30), 
+    data_da_multa varchar(30), 
+    matricula varchar(30)
+)
