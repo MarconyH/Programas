@@ -28,7 +28,15 @@ class App(ctk.CTk):
             matricula = self.matricula_login_entry.get()
 
             senha = self.senha_login_entry.get()
+
+            ##acesso ilimitado
+            matricula = "BB1"
+            senha = "123"
+
             login = self.acesso.login_user(matricula, senha)
+
+            
+
 
             if login[0] == -1:
                 self.tela_rejeitado()

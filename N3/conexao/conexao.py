@@ -145,6 +145,15 @@ class Cnx_livros(Conexao, Persistencia):
     def search_book(self, isbn): #retorna um livro
         return self._cmd_read(f'SELECT * FROM livros WHERE isbn = "{isbn}"')
     
+    def search_book_titulo(self, titulo): #retorna um livro
+        return self._cmd_read(f'SELECT * FROM livros WHERE titulo = "{titulo}"')
+    
+    def search_book_editora(self, editora): #retorna um livro
+        return self._cmd_read(f'SELECT * FROM livros WHERE editora = "{editora}"')
+    
+    def search_book_autor(self, autor): #retorna um livro
+        return self._cmd_read(f'SELECT * FROM livros WHERE autor = "{autor}"')
+    
     def update(self, isbn, autor, data, titulo, editora, edicao, local):
         print(f'UPDATE exemplares SET (autor, data, titulo, editora, edicao, local)=("{autor}", "{data}", "{titulo}", "{editora}", "{edicao}", "{local}") WHERE isbn="{isbn}"')         
         self._cmd(f'UPDATE livros SET autor = "{autor}", ano_publicao = "{data}", titulo = "{titulo}", editora = "{editora}", edicao = "{edicao}", localizacao = "{local}" WHERE isbn="{isbn}"')

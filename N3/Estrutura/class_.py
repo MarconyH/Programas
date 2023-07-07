@@ -168,7 +168,6 @@ class Usuarios_comuns(Pessoa):
         emprestimos = self._conx_emprestimos.read(self.matricula)
         texto = ''
         global data_comp
-        
         if emprestimos != []: 
             
             for i in emprestimos:
@@ -180,7 +179,7 @@ class Usuarios_comuns(Pessoa):
                         month = int(data[3:5])
                         year = int(data[6:10])
                         conv = dia + month*30 + year*365
-                        
+
                         if data_comp > conv:
                             texto += f'Multa ao usuário da matrícula {self.matricula}'
                             data_multa = self.converter((data_comp - conv)*2)
@@ -190,13 +189,14 @@ class Usuarios_comuns(Pessoa):
                         else:
                             texto += 'Livro Devolvido '
                         self._conx_exemplares.mudar_status(cod_exempl, isbn)
+                        self._conx_emprestimos.delete(cod_exempl, self.matricula)
                         reserva = self._conx_reservas.read_ebook(isbn)
                         
                         if reserva != []:
-                            texto += f'\nUsuario da Matricula: {reserva[1]} Reservou'
+                            pass
+                            # texto += f'\nUsuario da Matricula: {reserva[1]} Reservou'
                             ##precisa fazer algo a mais?
                         
-                        print("texto ai-> ")
                         return texto
                         
                     except Exception as erro:
@@ -299,15 +299,17 @@ class Bibliotecarios(Usuarios_comuns):
             self._conx_livros.add(titulo, autor, editora, edicao, ano_publicacao, isbn, localizacao)
 
     def remove_books(self, isbn) -> str:
-        exemplares = self._conx_exemplares.read(isbn)
-        ignora = 0
-        if(exemplares):
-            for i in exemplares:
-            # [isbn, cod, status] #EXEMPLARES
-                if ignora >= 1:
-                    if False == i[2]:
-                        return "Existe exemplares desse livro em uso"
-                ignora+=1
+        o_livro = self._conx_livros.search_book(isbn)
+        if o_livro != []:
+            exemplares = self._conx_exemplares.read(isbn)
+            ignora = 0
+            if exemplares != []:
+                for i in exemplares:
+                # [isbn, cod, status] #EXEMPLARES
+                    if ignora >= 1:
+                        if False == i[2]:
+                            return "Existe exemplares desse livro em uso"
+                    ignora+=1
             self._conx_livros.delete(isbn)
             self._conx_exemplares.delete_all(isbn)
             self._conx_reservas.delete_all(isbn)
@@ -318,30 +320,60 @@ class Bibliotecarios(Usuarios_comuns):
     def edit_books(self, isbn, autor, data, titulo, editora, edicao, local): 
         self._conx_livros.update(isbn, autor, data, titulo, editora, edicao, local)
     
-    def pesquisa_livro(self, isbn):
-        return self._conx_livros.search_book(isbn)
+    def pesquisa_livro(self,opc:str, inform):
+        pesq = []
+
+        if opc == "Autor(a)":
+            pesq = self._conx_livros.search_book_autor(inform)
+
+        elif opc == "Titulo":
+            pesq = self._conx_livros.search_book_titulo(inform)
+            
+        elif opc == "Editora":
+            pesq = self._conx_livros.search_book_editora(inform)
+
+        elif opc == "Isbn":
+            print("ESCOLHIDO")
+            pesq = self._conx_livros.search_book(inform)
+            print(pesq)
+        print(pesq)
+
+        return pesq
         
     def numero_exemplares(self, quant, isbn):
-        lista_exemplar = self._conx_exemplares.read(isbn)
-        
-        if lista_exemplar == []:
-            return
-        
-        tam = len(lista_exemplar[0])
-        tam_novo=tam+(int(quant))
-        for i in range(tam, tam_novo):
-            self._conx_exemplares.add(i, isbn)
+        o_livro = self._conx_livros.search_book(isbn)
+
+        if o_livro != []:
+
+            lista_exemplar = self._conx_exemplares.read(isbn)
+
+            tam = 0
+            if lista_exemplar != []:
+                tam = (len(lista_exemplar[0]) + 1) + 1
+                print("TAM1-> ", tam)
+
+            tam_novo=tam+(int(quant))
+            print("tam_novo->", tam_novo)
+
+            for i in range(tam, tam_novo):
+                self._conx_exemplares.add(i, isbn)
+
+            return f"{quant} Exemplares Adicionado."
+
+        return 'Não Existe Este Livro.'
             
     def remove_exemplar(self, number, isbn):
+        texto = ''
         for i in range(int(number)):
             exemplar = self._conx_exemplares.search_status(isbn)
             if exemplar != []:
                 print("cod", exemplar[0][1])
                 self._conx_exemplares.delete(exemplar[0][1], isbn)
             else:
-                return "Não existem exemplares disponíveis"
-        
-        return "Exemplares excluídos com sucesso"
+                texto = "Não Foi Possível Remover Todos os Exemplares\n->Alguns Estão em Uso."
+
+        texto += "Exemplares excluídos com sucesso"
+        return texto
     
     #criei essa aqui, não sei se a de cima é chamada em outro quanto
     # def remove_exemplar_quantidade(self, cod, isbn):

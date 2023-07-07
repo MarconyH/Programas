@@ -36,14 +36,14 @@ create table usuarios(
     senha varchar(30)
 )
 
-create table bibliotecarios(
-    nome varchar(30), 
-    matricula varchar(30), 
-    telefone varchar(30), 
-    email varchar(30), 
-    senha varchar(30),
-    chave varchar(30) = "root"
-)
+-- create table bibliotecarios(
+--     nome varchar(30), 
+--     matricula varchar(30), 
+--     telefone varchar(30), 
+--     email varchar(30), 
+--     senha varchar(30),
+--     chave varchar(30) = "root"
+-- )
 
 create table livros(
     titulo varchar(50), 
@@ -61,8 +61,9 @@ create table exemplares(
     disponivel bool
 )
 
-create table emprestimos(
-    cod varchar(30), 
+create table emprestimo(
+    cod varchar(30),
+    isbn varchar(30),
     matricula varchar(30),
     data_emprestimo varchar(30),
     data_devolucao varchar(30)
