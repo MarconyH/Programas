@@ -48,7 +48,6 @@ class App(ctk.CTk):
             elif login[0] == 1:
                 print("Bibliotecario")
                 app = LibraryApp_Bibliotecario(login[1])
-                
 
             
     def cadastro_button(self):

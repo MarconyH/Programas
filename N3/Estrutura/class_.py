@@ -297,7 +297,8 @@ class Bibliotecarios(Usuarios_comuns):
 
         if not find:
             self._conx_livros.add(titulo, autor, editora, edicao, ano_publicacao, isbn, localizacao)
-
+            return 'Adicionado.'
+        return 'Não Adicionado.'
     def remove_books(self, isbn) -> str:
         o_livro = self._conx_livros.search_book(isbn)
         if o_livro != []:

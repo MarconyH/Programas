@@ -12,13 +12,13 @@ app.mainloop()
 #emprestar livro
 #devolver livro
 #verificar catalogo
-#adicionar um livro                    -> retornar a mensagem da função
+#adicionar um livro                    
 #remover livro                         -> remove mesmo se tiver livro emprestado
 #remover exemplar                      
 #adiciona exemplar      
+#editar 
+
 
 ####################o que falta#######################################
 #verificar renovar livro 
-#verificar o editar
 #verificar o procurar um livro 
-#falta colocar editora e edição (catalago quanto no adição de livro)
