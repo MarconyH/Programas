@@ -1,0 +1,38 @@
+.box{
+    display: flex;
+    width: 100%;
+    height: 97vh;
+    gap: 10px;
+    
+}
+
+.box1 {
+    flex: none;
+}
+
+.box2 {
+    flex: none;
+}
+
+.box3 {
+    flex: none;
+    margin-top:auto;
+    margin-left:auto;
+}
+
+.box div {
+    display: inline-flex;
+    width: 100px;
+    height: 150px;
+    background-color: #eeeff2;
+    font-family: Tahoma;
+    font-size: 40px;
+    border-left: 10px dotted #D0D0FF;
+    
+}
+
+.box div:hover{
+    cursor: pointer;
+    background-color: yellow;
+    color: goldenrod
+}
