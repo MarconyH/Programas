@@ -1,1 +1,0 @@
-gcc filename.c -lGL -lGLU -lglut 
