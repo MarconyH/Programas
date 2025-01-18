@@ -134,7 +134,7 @@ void encode_text(string text) {
 
 int main()
 {
-    string text;
+    string text = "Hello World";
     if (text.empty())
     {
         cout << "Digite o texto a ser comprimido" << endl;
